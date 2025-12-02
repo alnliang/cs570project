@@ -8,9 +8,16 @@ def generateString(s, indices):
 
 
 
+import argparse
+
+
 def main():
+    parser = argparse.ArgumentParser(description="Generate expanded strings from input file")
+    parser.add_argument('input_file', help='Path to the input file listing base strings and indices')
+    args = parser.parse_args()
+
     # Read input file
-    with open("SampleTestCases/input1.txt", 'r') as f:
+    with open(args.input_file, 'r') as f:
         s = ""
         t = ""
         si = []
@@ -43,16 +50,15 @@ def main():
         if t == "":
             raise ValueError("Missing second base string in input file")
         
-        print(s)
-        print(t)
-        print(si)
-        print(ti)
-
-        print(generateString(s, si))
-        print(generateString(t, ti))
-        with open("string.txt", 'w') as f:
-            f.write(generateString(s, si) + '\n')
-            f.write(generateString(t, ti) + '\n')
+        # Output only the generated strings to stdout for downstream scripts
+        gen_s = generateString(s, si)
+        gen_t = generateString(t, ti)
+        print(gen_s)
+        print(gen_t)
+        # Also write to string.txt for local debugging compatibility
+        with open("string.txt", 'w') as sf:
+            sf.write(gen_s + '\n')
+            sf.write(gen_t + '\n')
 
 if __name__ == "__main__":
     main()
